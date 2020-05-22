@@ -7,6 +7,7 @@
     - `BELUM` Program untuk menscan/membaca AR TAG.
     - `BELUM` Program untuk mengarahkan laser ke target point.
     - `BELUM` Program untuk menghindari rintangan / obstacle **(Keep-Out Zone)**.
+    - dll, menyusul
 4. **DEBUGGING, DEBUGGING, AND DEBUGGING.**
 5. `BELUM` Upload APK ke web simulator. **DEADLINE Rabu, 10 Juni 2020 pukul 23.59 WIB**.
 6. `BELUM` Upload video profil. **DEADLINE Jumat, 12 Juni 2020 pukul 11.00 WIB**.
