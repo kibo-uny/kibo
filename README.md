@@ -9,14 +9,16 @@
     - `BELUM` Program untuk menghindari rintangan / obstacle **(Keep-Out Zone)**.
 4. **DEBUGGING, DEBUGGING, AND DEBUGGING.**
 5. `BELUM` Upload APK ke web simulator. **DEADLINE Rabu, 10 Juni 2020 pukul 23.59 WIB**.
+6. `BELUM` Upload video profil. **DEADLINE Jumat, 12 Juni 2020 pukul 11.00 WIB**.
     
 ## Catatan
-1. Astrobee tidak dapat bergerak di area **Keep-Out Zone (KOZ)**.
-2. Posisi awal Astrobee:
+1. Preliminary Round akan diadakan secara online pada **Sabtu, 13 Juni 2020 pukul 09.00 WIB**.
+2. Astrobee tidak dapat bergerak di area **Keep-Out Zone (KOZ)**.
+3. Posisi awal Astrobee:
     + Position (x, y, z) = (10.95, -3.75, 4.85)
     + Orientation (x, y, z, w) = (0, 0, 0.707, -0.707)
-3. Didekat target point ada AR Tag. Posisi **TARGET POINT** dan **AR TAG** random, selain yang disebutkan posisinya **TETAP**.
-4. Tabel untuk posisi QR CODE.
+4. Didekat target point ada AR Tag. Posisi **TARGET POINT** dan **AR TAG** random, selain yang disebutkan posisinya **TETAP**.
+5. Tabel untuk posisi QR CODE.
 
 No. | Position (x, y, z) | Orientation (x, y, z, w)
 --- | --- | ---
@@ -27,7 +29,7 @@ P2-1 | (10.30, -7.5, 4.7) | (0, 0, 1, 0)
 P2-2 | (11.5, -8, 5) | (0, 0, 0, 1)
 P2-3 | (11, -7.7, 5.55) | (0, -0.7071068, 0, 0.7071068)
 
-5. Tabel untuk letak rintangan / obstacle **(Keep-Out Zone)**.
+6. Tabel untuk letak rintangan / obstacle **(Keep-Out Zone)**.
 
 KOZ | x_min | y_min | z_min | x_max | y_max | z_max
 --- | --- | --- | --- | --- | --- | ---
@@ -41,7 +43,7 @@ KOZ | x_min | y_min | z_min | x_max | y_max | z_max
 08 | 11.05 | -8.9 | 4.2 | 11.25 | -8.7 | 4.4
 09 | 10.45 | -9.1 | 4.6 | 10.65 | -8.9 | 4.8
 
-6. Tabel untuk letak Ruang Kibo **(Keep-In Zone)**.
+7. Tabel untuk letak Ruang Kibo **(Keep-In Zone)**.
 
 KIZ | x_min | y_min | z_min | x_max | y_max | z_max
 --- | --- | --- | --- | --- | --- | ---
