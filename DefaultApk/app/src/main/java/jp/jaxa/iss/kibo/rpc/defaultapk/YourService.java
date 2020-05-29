@@ -22,15 +22,18 @@ public class YourService extends KiboRpcService {
     private final Point POINT_3_P11 = new Point(11.28, -3.95, 4.85);
     private final Point POINT_4_P11 = new Point(11.28, -5.7, 4.5);
     private final Point POINT_5_P11 = new Point(11.28, -5.7, 4.5);
-    private double[] QUAT_1_P11_z = new double[]{0, 0, -90};
-    private double[] QUAT_2_P11_z = new double[]{0, 0, 0};
-    private double[] QUAT_3_P11_z = new double[]{0, 0, -90};
-    private double[] QUAT_4_P11_x = new double[]{-11.31, 0, 0};
-    private double[] QUAT_5_P11_z = new double[]{0, 0, 0};
-
+    private double[] EULER_1_P11_YAW = new double[]{0, 0, -90};
+    private double[] EULER_2_P11_YAW = new double[]{0, 0, 0};
+    private double[] EULER_3_P11_YAW = new double[]{0, 0, -90};
+    private double[] EULER_4_P11_ROLL = new double[]{-11.31, 0, 0};
+    private double[] EULER_5_P11_YAW = new double[]{0, 0, 0};
+    
+    // OTW P1-2
+    
+    
     private Point[] arrayPoint = null;
     private Quaternion[] arrayQuaternion = null;
-    private double[][] arrayQuat = null;
+    private double[][] arrayEuler = null;
 
     @Override
     protected void runPlan1(){
@@ -38,7 +41,7 @@ public class YourService extends KiboRpcService {
         Result result = null;
         final int LOOP_MAX = 3;
         arrayPoint = new Point[] {POINT_1_P11, POINT_2_P11, POINT_3_P11, POINT_4_P11, POINT_5_P11};
-        arrayQuat = new double[][] {QUAT_1_P11_z, QUAT_2_P11_z, QUAT_3_P11_z, QUAT_4_P11_x, QUAT_5_P11_z};
+        arrayEuler = new double[][] {EULER_1_P11_YAW, EULER_2_P11_YAW, EULER_3_P11_YAW, EULER_4_P11_ROLL, EULER_5_P11_YAW};
         
         for (int i = 0; i < arrayPoint.length; i++) {
             qua_w = 0;
@@ -46,7 +49,7 @@ public class YourService extends KiboRpcService {
             qua_y = 0;
             qua_z = 0;
             
-            final Quaternion quaternion = eulerToQuaternion(arrayQuat[i]);
+            final Quaternion quaternion = eulerToQuaternion(arrayEuler[i]);
             final Point point = arrayPoint[i];
             result = api.moveTo(point, quaternion, true);
             // api.stopAllMotion();
