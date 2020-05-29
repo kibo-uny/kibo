@@ -31,7 +31,7 @@ public class YourService extends KiboRpcService {
 
     private Point[] arrayPoint = null;
     private Quaternion[] arrayQuaternion = null;
-    private double[] arrayQuat = null;
+    private double[][] arrayQuat = null;
 
     @Override
     protected void runPlan1(){
@@ -39,7 +39,7 @@ public class YourService extends KiboRpcService {
         Result result = null;
         final int LOOP_MAX = 3;
         arrayPoint = new Point[] {POINT_1_P11, POINT_2_P11, POINT_3_P11, POINT_4_P11, POINT_5_P11};
-        arrayQuat = new double[] {QUAT_1_P11_z, QUAT_2_P11_z, QUAT_3_P11_z, QUAT_4_P11_x, QUAT_5_P11_z};
+        arrayQuat = new double[][] {QUAT_1_P11_z, QUAT_2_P11_z, QUAT_3_P11_z, QUAT_4_P11_x, QUAT_5_P11_z};
         for (int i = 0; i < arrayPoint.length; i++) {
             qua_w = 0;
             qua_x = 0;
