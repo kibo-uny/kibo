@@ -34,6 +34,10 @@ android {
     }
 }
 
+repositories {
+    jcenter()
+}
+
 dependencies {
     compile project(':guest_science_library')
     compile project(':kibo_rpc_api')
@@ -50,4 +54,7 @@ dependencies {
     }
     testCompile 'junit:junit:4.12'
     compile 'com.quickbirdstudios:opencv:3.4.4-contrib'
+    compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
+    compile 'com.google.zxing:core:3.2.0'
 }
+
