@@ -28,70 +28,65 @@ public class YourService extends KiboRpcService {
     private double qua_w, qua_x, qua_y, qua_z;
 
 
-    // OTW P1-1, orientasi naik 11.31 derajat
-    private final Point POINT_1_P11 = new Point(10.95, -3.95, 4.85);
-    private final Point POINT_2_P11 = new Point(11.5, -3.95, 4.85);
-    private final Point POINT_3_P11 = new Point(11.5, -3.95, 4.85);
-    private final Point POINT_4_P11 = new Point(11.5, -5.7, 4.5);
-    private final Point POINT_5_P11 = new Point(11.5, -5.7, 4.5);
-    private double[] QUAT_1_P11_z = new double[]{0, 0, -90};
-    private double[] QUAT_2_P11_z = new double[]{0, 0, 0};
-    private double[] QUAT_3_P11_z = new double[]{0, 0, -90};
-    private double[] QUAT_4_P11_x = new double[]{-11.31, 0, 0};
-    private double[] QUAT_5_P11_z = new double[]{0, 0, 0};
+    // OTW P1-1
+    private final Point POINT_P11 = new Point(11.5, -5.7, 4.5);
+    private final double[] QUAT_P11 = new double[]{0, 0, 0};
 
-    private Point[] arrayPoint = null;
-    private Quaternion[] arrayQuaternion = null;
-    private double[][] arrayQuat = null;
+    // OTW P1-2
+    private final Point POINT_P12 = new Point(11, -6, 5.5);
+    private final double[] QUAT_P12 = new double[]{0, -90, 0};
+
+    // OTW P1-3
+    private final Point POINT_P13 = new Point(11, -5.5, 4.33);
+    private final double[] QUAT_P13 = new double[]{0, 90, -90};
+
+    // LEWATI RINTANGAN
+    private final Point POINT_AVOID_1 = new Point(10.529,-6.2,4.33);
+    private final Point POINT_AVOID_2 = new Point(10.529, -6.837, 4.33);
+    private final Point POINT_AVOID_3 = new Point(11.105, -6.837, 4.33);
+    private final Point POINT_AVOID_4 = new Point(11.207, -7.394, 4.33);
+    private final double[] QUAT_AVOID_1 = new double[]{0, 0, -90};
+    private final double[] QUAT_AVOID_2 = new double[]{0, 0, 0};
+    private final double[] QUAT_AVOID_3 = new double[]{0, 0, -90};
+    private final double[] QUAT_AVOID_4 = new double[]{0, 0, -100.86};
+
+    // OTW P2-1
+    private final Point POINT_P21 = new Point(10.3, -7.5, 4.7);
+    private final double[] QUAT_P21 = new double[]{0, 0, 1, 0};
+
+    // OTW P2-2
+    private final Point POINT_P22 = new Point(11.5, -8, 5);
+    private final double[] QUAT_P22 = new double[]{0, 0, 1};
+
+    // OTW P2-3
+    private final Point POINT_P23 = new Point(11, -7.7, 5.55);
+    private final double[] QUAT_P23 = new double[]{0, -90, 0};
+
+    private Point[] arrayPoint1 = null;
+    private double[][] arrayQuat1 = null;
+    private Point[] arrayPoint2 = null;
+    private double[][] arrayQuat2 = null;
+    private Point[] arrayPoint3 = null;
+    private double[][] arrayQuat3 = null;
+
+    int QR_COUNT = 0;
 
     @Override
     protected void runPlan1(){
         // write here your plan 1
         api.judgeSendStart();
-        Result result = null;
-        final int LOOP_MAX = 3;
-        arrayPoint = new Point[] {POINT_1_P11, POINT_2_P11, POINT_3_P11, POINT_4_P11, POINT_5_P11};
-        arrayQuat = new double[][]{QUAT_1_P11_z, QUAT_2_P11_z, QUAT_3_P11_z, QUAT_4_P11_x, QUAT_5_P11_z};
-        for (int i = 0; i < arrayPoint.length; i++) {
-            qua_w = 0;
-            qua_x = 0;
-            qua_y = 0;
-            qua_z = 0;
 
-            final Quaternion quaternion = eulerToQuaternion(arrayQuat[i]);
-            final Point point = arrayPoint[i];
-            result = api.moveTo(point, quaternion, true);
-            // api.stopAllMotion();
-            int loopCounter = 0;
-            while(!result.hasSucceeded() || loopCounter < LOOP_MAX){
-                result = api.moveTo(point, quaternion, true);
-                ++loopCounter;
-            }
-        }
+        arrayPoint1 = new Point[]{POINT_P11, POINT_P12, POINT_P13};
+        arrayQuat1 = new double[][]{QUAT_P11, QUAT_P12, QUAT_P13};
+        moveAstrobee(arrayPoint1, arrayQuat1);
 
-        Bitmap bmp = api.getBitmapNavCam();
-        String contents;
+        arrayPoint2 = new Point[]{POINT_AVOID_1, POINT_AVOID_2, POINT_AVOID_3, POINT_AVOID_4};
+        arrayQuat2 = new double[][]{QUAT_AVOID_1, QUAT_AVOID_2, QUAT_AVOID_3, QUAT_AVOID_4};
+        avoidObstacle(arrayPoint2, arrayQuat2);
 
-        int[] intArray = new int[bmp.getWidth()*bmp.getHeight()];
-        bmp.getPixels(intArray, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
-
-        LuminanceSource source = new RGBLuminanceSource(bmp.getWidth(), bmp.getHeight(), intArray);
-        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-
-        com.google.zxing.Reader reader = new MultiFormatReader();
-        com.google.zxing.Result resultP11 = null;
-        try {
-            resultP11 = reader.decode(bitmap);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        } catch (ChecksumException e) {
-            e.printStackTrace();
-        } catch (FormatException e) {
-            e.printStackTrace();
-        }
-
-        contents = resultP11.getText();
-        api.judgeSendDiscoveredQR(0, contents);
+        arrayPoint3 = new Point[]{POINT_P21, POINT_P22, POINT_P23};
+        arrayQuat3 = new double[][]{QUAT_P21, QUAT_P22, QUAT_P23};
+        moveAstrobee(arrayPoint3, arrayQuat3);
 
     }
 
@@ -105,6 +100,62 @@ public class YourService extends KiboRpcService {
         // write here your plan 3
     }
 
+    private void avoidObstacle(Point[] pt, double[][] quat){
+        Point[] p = pt;
+        double[][] q = quat;
+        final int LOOP_MAX = 3;
+        Result result = null;
+        for (int i = 0; i < p.length; i++) {
+            qua_w = 0;
+            qua_x = 0;
+            qua_y = 0;
+            qua_z = 0;
+
+            final Quaternion quaternion = eulerToQuaternion(q[i]);
+            final Point point = p[i];
+
+            result = api.moveTo(point, quaternion, true);
+
+            int loopCounter = 0;
+            while (!result.hasSucceeded() || loopCounter < LOOP_MAX) {
+                result = api.moveTo(point, quaternion, true);
+                ++loopCounter;
+            }
+        }
+    }
+
+    private void moveAstrobee(Point[] pt, double[][] quat){
+        Point[] p = pt;
+        double[][] q = quat;
+        final int LOOP_MAX = 4;
+        int LOOP_TARGET_MAX = 0;
+        Result result = null;
+        for (int i = 0; i < p.length; i++) {
+            qua_w = 0;
+            qua_x = 0;
+            qua_y = 0;
+            qua_z = 0;
+
+            final Quaternion quaternion = eulerToQuaternion(q[i]);
+            final Point point = p[i];
+
+            result = api.moveTo(point, quaternion, true);
+
+            int loopCounter = 0;
+            int loopTargetCounter = 0;
+            if (i == 2) {
+                LOOP_TARGET_MAX = 5;
+            }
+            while (!result.hasSucceeded() || loopCounter < LOOP_MAX || loopTargetCounter < LOOP_TARGET_MAX) {
+                if (i == 2) getQR(QR_COUNT);
+                result = api.moveTo(point, quaternion, true);
+                ++loopCounter;
+                ++loopTargetCounter;
+            }
+        }
+        ++QR_COUNT;
+    }
+
     private Quaternion eulerToQuaternion(double[] rpy){
         roll = Math.toRadians(rpy[0]);
         pitch = Math.toRadians(rpy[1]);
@@ -115,6 +166,36 @@ public class YourService extends KiboRpcService {
         qua_w = Math.cos(roll / 2) * Math.cos(pitch / 2) * Math.cos(yaw / 2) + Math.sin(roll / 2) * Math.sin(pitch / 2) * Math.sin(yaw / 2);
         Quaternion quat = new Quaternion((float)qua_x, (float)qua_y, (float)qua_z, (float)qua_w);
         return quat;
+    }
+
+    private String getQR(int no){
+        Bitmap bmp = api.getBitmapNavCam();
+        String contents;
+
+        int[] intArray = new int[bmp.getWidth()*bmp.getHeight()];
+        bmp.getPixels(intArray, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
+
+        LuminanceSource source = new RGBLuminanceSource(bmp.getWidth(), bmp.getHeight(), intArray);
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+        com.google.zxing.Reader reader = new MultiFormatReader();
+        com.google.zxing.Result QR_RESULT = null;
+        try {
+            QR_RESULT = reader.decode(bitmap);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        } catch (ChecksumException e) {
+            e.printStackTrace();
+        } catch (FormatException e) {
+            e.printStackTrace();
+        }
+
+        contents = QR_RESULT.getText();
+        if (contents != null) {
+            api.judgeSendDiscoveredQR(no, contents);
+        }
+
+        return contents;
     }
 
 }
