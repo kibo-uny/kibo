@@ -1,6 +1,7 @@
 package jp.jaxa.iss.kibo.rpc.defaultapk;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.lang.Math;
 
@@ -26,19 +27,21 @@ public class YourService extends KiboRpcService {
     // roll (x), pitch (y), yaw (z)
     private double roll, pitch, yaw;
     private double qua_w, qua_x, qua_y, qua_z;
-
+    public static final String TAG = "TAG";
 
     // OTW P1-1
     private final Point POINT_P11 = new Point(11.5, -5.7, 4.5);
     private final double[] QUAT_P11 = new double[]{0, 0, 0};
 
+    // OTW P1-3
+    private final Point POINT_P13_1 = new Point(11, -5.5, 4.5);
+    private final Point POINT_P13_2 = new Point(11, -5.5, 4.33);
+    private final double[] QUAT_P13_1 = new double[]{0, 0, -90};
+    private final double[] QUAT_P13_2 = new double[]{0, 90, -90};
+
     // OTW P1-2
     private final Point POINT_P12 = new Point(11, -6, 5.5);
-    private final double[] QUAT_P12 = new double[]{0, -90, 0};
-
-    // OTW P1-3
-    private final Point POINT_P13 = new Point(11, -5.5, 4.33);
-    private final double[] QUAT_P13 = new double[]{0, 90, -90};
+    private final double[] QUAT_P12 = new double[]{0, -90, -90};
 
     // LEWATI RINTANGAN
     private final Point POINT_AVOID_1 = new Point(10.529,-6.2,4.33);
@@ -76,9 +79,9 @@ public class YourService extends KiboRpcService {
         // write here your plan 1
         api.judgeSendStart();
 
-        arrayPoint1 = new Point[]{POINT_P11, POINT_P12, POINT_P13};
-        arrayQuat1 = new double[][]{QUAT_P11, QUAT_P12, QUAT_P13};
-        moveAstrobee(arrayPoint1, arrayQuat1);
+        arrayPoint1 = new Point[]{POINT_P11, POINT_P13_1, POINT_P13_2, POINT_P12};
+        arrayQuat1 = new double[][]{QUAT_P11, QUAT_P13_1, QUAT_P13_2, QUAT_P12};
+        moveRobot(arrayPoint1, arrayQuat1);
 
         arrayPoint2 = new Point[]{POINT_AVOID_1, POINT_AVOID_2, POINT_AVOID_3, POINT_AVOID_4};
         arrayQuat2 = new double[][]{QUAT_AVOID_1, QUAT_AVOID_2, QUAT_AVOID_3, QUAT_AVOID_4};
@@ -86,7 +89,9 @@ public class YourService extends KiboRpcService {
 
         arrayPoint3 = new Point[]{POINT_P21, POINT_P22, POINT_P23};
         arrayQuat3 = new double[][]{QUAT_P21, QUAT_P22, QUAT_P23};
-        moveAstrobee(arrayPoint3, arrayQuat3);
+        moveRobot(arrayPoint3, arrayQuat3);
+
+        api.judgeSendFinishSimulation();
 
     }
 
@@ -100,19 +105,17 @@ public class YourService extends KiboRpcService {
         // write here your plan 3
     }
 
-    private void avoidObstacle(Point[] pt, double[][] quat){
-        Point[] p = pt;
-        double[][] q = quat;
+    public void avoidObstacle(Point[] pt, double[][] quat){
         final int LOOP_MAX = 3;
         Result result = null;
-        for (int i = 0; i < p.length; i++) {
+        for (int i = 0; i < pt.length; i++) {
             qua_w = 0;
             qua_x = 0;
             qua_y = 0;
             qua_z = 0;
 
-            final Quaternion quaternion = eulerToQuaternion(q[i]);
-            final Point point = p[i];
+            final Quaternion quaternion = eulerToQuaternion(quat[i]);
+            final Point point = pt[i];
 
             result = api.moveTo(point, quaternion, true);
 
@@ -124,30 +127,28 @@ public class YourService extends KiboRpcService {
         }
     }
 
-    private void moveAstrobee(Point[] pt, double[][] quat){
-        Point[] p = pt;
-        double[][] q = quat;
-        final int LOOP_MAX = 4;
+    public void moveRobot(Point[] pt, double[][] quat){
+        final int LOOP_MAX = 3;
         int LOOP_TARGET_MAX = 0;
         Result result = null;
-        for (int i = 0; i < p.length; i++) {
+        for (int i = 0; i < pt.length; i++) {
             qua_w = 0;
             qua_x = 0;
             qua_y = 0;
             qua_z = 0;
 
-            final Quaternion quaternion = eulerToQuaternion(q[i]);
-            final Point point = p[i];
+            final Quaternion quaternion = eulerToQuaternion(quat[i]);
+            final Point point = pt[i];
 
             result = api.moveTo(point, quaternion, true);
 
             int loopCounter = 0;
             int loopTargetCounter = 0;
             if (i == 2) {
-                LOOP_TARGET_MAX = 5;
+                LOOP_TARGET_MAX = 3;
             }
             while (!result.hasSucceeded() || loopCounter < LOOP_MAX || loopTargetCounter < LOOP_TARGET_MAX) {
-                if (i == 2) getQR(QR_COUNT);
+                if (pt[i] == POINT_P11 || pt[i] == POINT_P12 || pt[i] == POINT_P13_2 || pt[i] == POINT_P21 || pt[i] == POINT_P22 || pt[i] == POINT_P23) getQR(QR_COUNT);
                 result = api.moveTo(point, quaternion, true);
                 ++loopCounter;
                 ++loopTargetCounter;
@@ -156,7 +157,7 @@ public class YourService extends KiboRpcService {
         ++QR_COUNT;
     }
 
-    private Quaternion eulerToQuaternion(double[] rpy){
+    public Quaternion eulerToQuaternion(double[] rpy){
         roll = Math.toRadians(rpy[0]);
         pitch = Math.toRadians(rpy[1]);
         yaw = Math.toRadians(rpy[2]);
@@ -168,7 +169,7 @@ public class YourService extends KiboRpcService {
         return quat;
     }
 
-    private String getQR(int no){
+    public String getQR(int no){
         Bitmap bmp = api.getBitmapNavCam();
         String contents;
 
@@ -193,10 +194,10 @@ public class YourService extends KiboRpcService {
         contents = QR_RESULT.getText();
         if (contents != null) {
             api.judgeSendDiscoveredQR(no, contents);
+            Log.d(TAG, "posisi P3: " + contents);
         }
 
         return contents;
     }
-
 }
 
