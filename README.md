@@ -3,10 +3,10 @@
 2. `BELUM` Install software simulator & android studio di virtual server. **(Target selesai: 23 Mei 2020)**
 3. `PROSES` Buat program:
     - `PROSES` Program untuk memindahkan Astrobee ke titik tertentu hingga ke target point.
-    - `BELUM` Program untuk menscan/membaca QR CODE.
+    - `PROSES` Program untuk menscan/membaca QR CODE.
     - `BELUM` Program untuk menscan/membaca AR TAG.
     - `BELUM` Program untuk mengarahkan laser ke target point.
-    - `BELUM` Program untuk menghindari rintangan / obstacle **(Keep-Out Zone)**.
+    - `PROSES` Program untuk menghindari rintangan / obstacle **(Keep-Out Zone)**.
     - dll, menyusul
 4. **DEBUGGING, DEBUGGING, AND DEBUGGING.**
 5. `BELUM` Upload APK ke web simulator. **DEADLINE Rabu, 10 Juni 2020 pukul 23.59 WIB**.
