@@ -157,7 +157,7 @@ public class YourService extends KiboRpcService {
         Quaternion quat = eulerToQuaternion(qt);
         result = api.moveTo(pt, quat, true);
         int loopCounter = 0;
-        while (!result.hasSucceeded() || loopCounter < LOOP_MAX) {
+        while (!result.hasSucceeded() && loopCounter < LOOP_MAX) {
             result = api.moveTo(pt, quat, true);
             ++loopCounter;
         }
