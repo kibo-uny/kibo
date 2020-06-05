@@ -54,7 +54,17 @@ dependencies {
     }
     testCompile 'junit:junit:4.12'
     compile 'com.quickbirdstudios:opencv:3.4.4-contrib'
-    compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
-    compile 'com.google.zxing:core:3.2.0'
+    compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+    compile 'com.google.zxing:core:3.2.1'
+    compile 'org.apache.commons:commons-math3:3.6.1'
+    compile 'me.dm7.barcodescanner:zbar:1.9.8'
+    compile (group: 'org.boofcv', name: 'boofcv-android', version: '0.31')
+    compile (group: 'org.boofcv', name: 'boofcv-swing', version: '0.27')
+    compile (group: 'org.boofcv', name: 'boofcv-recognition', version: '0.30') {
+        exclude group: "xmlpull", module: "xmlpull"
+        exclude group: "org.apache.commons", module: "commons-compress"
+        exclude group: "com.thoughtworks.xstream", module: "commons-compress"
+    }
 }
+
 
