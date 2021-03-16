@@ -1,16 +1,16 @@
 ## Progress Kibo
-1. `BELUM` Setup virtual server linux untuk simulasi. **(Target selesai: 23 Mei 2020)**
-2. `BELUM` Install software simulator & android studio di virtual server. **(Target selesai: 23 Mei 2020)**
-3. `PROSES` Buat program:
-    - `PROSES` Program untuk memindahkan Astrobee ke titik tertentu hingga ke target point.
-    - `PROSES` Program untuk menscan/membaca QR CODE.
-    - `BELUM` Program untuk menscan/membaca AR TAG.
-    - `BELUM` Program untuk mengarahkan laser ke target point.
-    - `PROSES` Program untuk menghindari rintangan / obstacle **(Keep-Out Zone)**.
+1. `SUDAH` Setup virtual server linux untuk simulasi. **(Target selesai: 23 Mei 2020)**
+2. `SUDAH` Install software simulator & android studio di virtual server. **(Target selesai: 23 Mei 2020)**
+3. `SUDAH` Buat program:
+    - `SUDAH` Program untuk memindahkan Astrobee ke titik tertentu hingga ke target point.
+    - `SUDAH` Program untuk menscan/membaca QR CODE.
+    - `SUDAH` Program untuk menscan/membaca AR TAG.
+    - `SUDAH` Program untuk mengarahkan laser ke target point.
+    - `SUDAH` Program untuk menghindari rintangan / obstacle **(Keep-Out Zone)**.
     - dll, menyusul
 4. **DEBUGGING, DEBUGGING, AND DEBUGGING.**
-5. `BELUM` Upload APK ke web simulator. **DEADLINE Rabu, 10 Juni 2020 pukul 23.59 WIB**.
-6. `BELUM` Upload video profil. **DEADLINE Jumat, 12 Juni 2020 pukul 11.00 WIB**.
+5. `SUDAH` Upload APK ke web simulator. **DEADLINE Rabu, 10 Juni 2020 pukul 23.59 WIB**.
+6. `SUDAH` Upload video profil. **DEADLINE Jumat, 12 Juni 2020 pukul 11.00 WIB**.
     
 ## Catatan
 1. Preliminary Round akan diadakan secara online pada **Sabtu, 13 Juni 2020 pukul 09.00 WIB**.
